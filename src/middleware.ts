@@ -1,25 +1,40 @@
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
-
+import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
-// const PUBLIC_ROUTES = ['/login', '/signup'];
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!); // 1862eda0-dfa4-45e2-8147-e2f15b2d583e
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+const PUBLIC_ROUTES = ['/login', '/signup'];
 
-export async function middleware() {
-  const cookie = await cookies();
-  const token = cookie.get('alternative-token');
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-  if (!token?.value) {
-    return NextResponse.redirect(new URL('/login'));
-  };
+  const cookieStore = await cookies();
+  const token = cookieStore.get('alternative-token');
 
-  const { payload } = await jwtVerify(token?.value!, JWT_SECRET);
-  console.log({ payload });
+  if (PUBLIC_ROUTES.includes(pathname)) {
+    if (token) {
+      try {
+        await jwtVerify(token.value, JWT_SECRET);
+        return NextResponse.redirect(new URL('/profile', request.url));
+      } catch {
+        return NextResponse.next();
+      }
+    }
+    return NextResponse.next();
+  }
 
-  return NextResponse.next();
+  if (!token) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  try {
+    await jwtVerify(token.value, JWT_SECRET);
+    return NextResponse.next();
+  } catch {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 }
 
 export const config = {
-  matcher: ['/profile', '/login', '/signup'],
+  matcher: ['/', '/profile', '/login', '/signup'],
 };
