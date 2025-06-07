@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+
+import jwt from 'jsonwebtoken';
 
 import mocks from '../../mocks.json';
 
-export async function GET(request: NextRequest) {
-  const url = new URL(request.url);
-  const id = url.searchParams.get("id") as string;
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
-  const findUser = mocks.users.find(f => f.id === id);
+export async function GET() {
+  const cookie = await cookies();
+  const token = cookie.get('alternative-token')?.value;
+
+  const verify = jwt.verify(token!, JWT_SECRET);
+
+  const findUser = mocks.users.find(f => f.id === verify.sub);
 
   if (!findUser) {
     return NextResponse.json(false, { status: 400, statusText: 'problems registering!' })
@@ -21,8 +28,13 @@ export async function POST(request: NextRequest) {
   const findUser = mocks.users.find(f => f.email === body.email && f.password === body.password);
 
   if (!findUser) {
-    return NextResponse.json(false, { status: 400, statusText: 'problems registering!' })
+    return NextResponse.json('Usuário ou senha inválidos', {
+      status: 401,
+      statusText: 'problems when trying to login!',
+    });
   };
 
-  return NextResponse.json(findUser.id, { status: 200, statusText: 'logged' })
+  const token = jwt.sign({ sub: findUser.id }, JWT_SECRET!, { expiresIn: 60 * 60 * 24 * 1 });
+
+  return NextResponse.json(token, { status: 200, statusText: 'logged' });
 };

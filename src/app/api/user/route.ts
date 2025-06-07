@@ -1,10 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST() {
-  const created = false;
+import mocks from '../mocks.json';
 
-  if (created) {
-    return NextResponse.json(false, { status: 400, statusText: 'problems registering!' })
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+
+  const users = mocks.users.find(f => f.email === body.email);
+
+  if (!!users) {
+    return NextResponse.json(false, { status: 404, statusText: 'problems registering!' })
   };
 
   return NextResponse.json(true, { status: 201, statusText: 'user created successfully!' })
