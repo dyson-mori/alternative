@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
+    "jose": "^6.0.11",
     "jsonwebtoken": "^9.0.2",
     "next": "15.3.0",
     "next-plugin-svgr": "^1.1.12",
