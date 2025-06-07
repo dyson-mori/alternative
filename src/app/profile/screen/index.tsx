@@ -1,4 +1,7 @@
 "use client"
+import { Suspense } from "react";
+
+import { Splash } from "@components";
 
 import { Container } from "./styles";
 
@@ -12,8 +15,10 @@ type UserLoginProps = {
 
 export default function ProfileScreen({ user }: UserLoginProps) {
   return (
-    <Container>
-      {user.name}
-    </Container>
+    <Suspense fallback={<Splash />}>
+      <Container>
+        {user.name}
+      </Container>
+    </Suspense>
   )
 }

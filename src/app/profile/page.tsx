@@ -1,14 +1,11 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 
 import { api } from "@services/api";
 
-import { Splash } from "@components";
-
 import ProfileScreen from "./screen";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const user = await api.user.authentication('79426b1a-d186-4366-aa18-f1f2159bc40b');
+  const user = await api.user.authentication();
 
   return {
     title: "Bem Vindo " + user.name,
@@ -16,11 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 };
 
 export default async function Login() {
-  const user = await api.user.authentication('79426b1a-d186-4366-aa18-f1f2159bc40b');
+  const user = await api.user.authentication();
 
-  return (
-    <Suspense fallback={<Splash />}>
-      <ProfileScreen user={user} />
-    </Suspense>
-  );
+  return <ProfileScreen user={user} />;
 };
