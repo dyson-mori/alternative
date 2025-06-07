@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 
-import { Suspense } from "react";
-
-import { Splash } from "@components";
-
 import RegisterScreen from "./screen";
 
 export const metadata: Metadata = {
@@ -12,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function Register() {
-  return (
-    <Suspense fallback={<Splash />}>
-      <RegisterScreen />
-    </Suspense>
-  );
+  return <RegisterScreen />;
 };
