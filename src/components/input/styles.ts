@@ -23,7 +23,7 @@ export const InputWrapper = styled.div`
     border: 1px solid #dedede;
     background-color: transparent;
     transition: 0.1s ease;
-    z-index: 1111;
+    z-index: 1;
     border-radius: 3px;
 
     ${({ theme }) => css`
@@ -52,6 +52,6 @@ export const InputWrapper = styled.div`
     height: 30px;
     line-height: 30px;
     transform: translate(-15px, -16px) scale(0.88);
-    z-index: 1111;
+    z-index: 1;
   };
 `;
