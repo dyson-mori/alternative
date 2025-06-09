@@ -9,7 +9,7 @@ type FetchProps = {
   body?: object;
 };
 
-const NEXT_URL = process.env.NEXT_PROJECT_URL;
+const NEXT_URL = process.env.NEXT_RAILS_URL;
 
 const fetcher = async ({ method, url, cache, body }: FetchProps) => {
   const cookie = await cookies();
@@ -21,7 +21,8 @@ const fetcher = async ({ method, url, cache, body }: FetchProps) => {
       cache,
       headers: {
         'Content-Type': 'application/json',
-        Cookie: cookie.toString()
+        'Authorization': cookie.get('porcupine-token')!.value
+        // Cookie: cookie.toString()
       },
       ...(isBodyAllowed && body ? { body: JSON.stringify(body) } : {})
     });
@@ -30,7 +31,11 @@ const fetcher = async ({ method, url, cache, body }: FetchProps) => {
       return { status: res.status, statsText: res.statusText };
     };
 
-    return await res.json();
+    return {
+      status: res.status,
+      statsText: res.statusText,
+      ...(await res.json())
+    };
   } catch (error) {
     // console.log("Erro ao buscar dados:", error);
     return error;

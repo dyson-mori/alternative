@@ -13,18 +13,22 @@ type UserLoginProps = {
 
 type UserResponse = boolean | string | RegisterError;
 
+type FormatRailsBodyProps = {
+  user: UserLoginProps
+};
+
 type ApiProps = {
   user: {
-    login: (body: Pick<UserLoginProps, 'email' | 'password'>) => Promise<UserResponse>;
-    register: (body: UserLoginProps) => Promise<UserResponse>;
-    authentication: () => Promise<UserLoginProps>;
+    login: (body: FormatRailsBodyProps) => Promise<UserResponse>;
+    register: (body: FormatRailsBodyProps) => Promise<UserResponse>;
+    authentication: () => Promise<FormatRailsBodyProps>;
   };
 };
 
 export const api: ApiProps = {
   user: {
-    login: (body) => fetcher({ url: '/user/auth', method: 'POST', body }),
-    register: (body) => fetcher({ url: '/user', method: 'POST', body }),
-    authentication: () => fetcher({ url: `/user/auth`, method: 'GET' }),
+    login: (body) => fetcher({ url: '/login', method: 'POST', body }),
+    register: (body) => fetcher({ url: '/signup', method: 'POST', body }),
+    authentication: () => fetcher({ url: `/me`, method: 'GET' }),
   }
 };
