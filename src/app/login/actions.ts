@@ -6,7 +6,7 @@ export async function serveCookieAction(token: string) {
   const cookie = await cookies();
 
   cookie.set({
-    name: 'alternative-token',
+    name: 'porcupine-token',
     value: token,
     // httpOnly: true,
     // path: '/login',

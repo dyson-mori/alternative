@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export async function GET() {
   const cookie = await cookies();
-  const token = cookie.get('alternative-token')?.value;
+  const token = cookie.get('porcupine-token')?.value;
 
   const verify = jwt.verify(token!, JWT_SECRET);
 
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     });
   };
 
-  const token = jwt.sign({ sub: findUser.id }, JWT_SECRET!, { expiresIn: 60 * 60 * 24 * 1 });
+  const token = jwt.sign({ sub: findUser.id }, JWT_SECRET!, { expiresIn: 120 }); // 120 = 2 min
 
   return NextResponse.json(token, { status: 200, statusText: 'logged' });
 };

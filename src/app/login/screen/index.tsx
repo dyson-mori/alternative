@@ -20,32 +20,36 @@ import { serveCookieAction } from "../actions";
 type StatusProps = {
   loading: boolean;
   status: 'primary' | 'error';
+  message?: string;
 };
 
 export default function LoginScreen() {
   const route = useRouter();
 
-  const [status, setStatus] = useState({} as StatusProps);
+  const [status, setStatus] = useState({ message: 'Enviar' } as StatusProps);
 
   const { control, handleSubmit, formState: { isValid } } = useForm<schemaProps>({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: 'ssergiojunioleal@gmail.com',
-      password: '123456789'
+      email: '',
+      password: ''
     },
-    // mode: 'onChange'
   });
 
   async function submit(form: schemaProps) {
     setStatus({ loading: true, status: 'primary' });
 
-    const data = await api.user.login(form);
+    const data = await api.user.login({ user: form });
 
     if (Object.values(data)[0] === 401) {
-      return setStatus({ loading: false, status: 'error' });
+      return setStatus({ loading: false, status: 'error', message: 'Tente Novamente' });
     };
 
-    serveCookieAction(data as string)
+    serveCookieAction(data.token as string);
+
+    setStatus({ loading: false, status: 'primary', message: data.message });
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     return route.push('/profile');
   };
@@ -78,7 +82,7 @@ export default function LoginScreen() {
             loading={status.loading}
             disabled={!isValid || status.loading}
           >
-            {status.status === 'error' ? 'Tente Novamente' : 'Enviar'}
+            {status.message}
           </Button>
 
           <div style={{ height: 10 }} />

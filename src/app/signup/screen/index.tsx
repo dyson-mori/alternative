@@ -16,20 +16,21 @@ import { schema, schemaProps } from "./schema";
 type StatusProps = {
   loading: boolean;
   status: 'primary' | 'error';
+  message?: string;
 };
 
 export default function RegisterScreen() {
   const route = useRouter();
 
-  const [status, setStatus] = useState({} as StatusProps);
+  const [status, setStatus] = useState({ message: 'Registrar' } as StatusProps);
 
   const { control, handleSubmit, formState: { isValid } } = useForm<schemaProps>({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: 'sergio junio leal',
-      email: 'ssergiojunioleal@gmail.com',
-      password: '123456789',
-      confirmPassword: '123456789',
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
     // mode: 'onChange'
   });
@@ -37,11 +38,15 @@ export default function RegisterScreen() {
   async function submit(form: schemaProps) {
     setStatus({ loading: true, status: 'primary' });
 
-    const data = await api.user.register(form);
+    const data = await api.user.register({ user: form });
 
-    if (Object.values(data)[0] === 404) {
-      return setStatus({ loading: false, status: 'error' });
+    if (Object.values(data)[0] !== 201) {
+      return setStatus({ loading: false, status: 'error', message: 'Algo deu de errado ao tentar criar o usuário!' });
     };
+
+    setStatus({ loading: true, status: 'primary', message: data.message });
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     return route.push('/login');
   };
@@ -90,7 +95,7 @@ export default function RegisterScreen() {
             loading={status.loading}
             disabled={!isValid || status.loading}
           >
-            {status.status === 'error' ? 'Tente Novamente' : 'Registrar'}
+            {status.message}
           </Button>
           <div style={{ height: 10 }} />
 
