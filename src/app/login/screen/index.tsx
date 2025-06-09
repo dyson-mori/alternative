@@ -15,7 +15,6 @@ import { Logo } from "@assets";
 
 import { Container, Form, SignUp } from "./styles";
 import { schema, schemaProps } from "./schema";
-import { serveCookieAction } from "../actions";
 
 type StatusProps = {
   loading: boolean;
@@ -30,10 +29,6 @@ export default function LoginScreen() {
 
   const { control, handleSubmit, formState: { isValid } } = useForm<schemaProps>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      email: '',
-      password: ''
-    },
   });
 
   async function submit(form: schemaProps) {
@@ -41,15 +36,14 @@ export default function LoginScreen() {
 
     const data = await api.user.login({ user: form });
 
-    if (Object.values(data)[0] === 401) {
-      return setStatus({ loading: false, status: 'error', message: 'Tente Novamente' });
+    console.log(
+      data
+    );
+
+
+    if (data.status !== 200) {
+      return setStatus({ loading: false, status: 'error', message: data.message });
     };
-
-    serveCookieAction(data.token as string);
-
-    setStatus({ loading: false, status: 'primary', message: data.message });
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     return route.push('/profile');
   };

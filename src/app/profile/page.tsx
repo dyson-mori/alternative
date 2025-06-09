@@ -5,7 +5,7 @@ import { api } from "@services/api";
 import ProfileScreen from "./screen";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const user = await api.user.authentication();
+  const user = await api.profile.data();
 
   return {
     title: "Bem Vindo " + user.user.name,
@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 };
 
 export default async function Login() {
-  const user = await api.user.authentication();
+  const user = await api.profile.data();
 
   return <ProfileScreen data={user} />;
 };
