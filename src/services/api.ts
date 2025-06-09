@@ -1,34 +1,56 @@
 import fetcher from "@utils/fetcher";
 
-type RegisterError = {
-  status: number;
-  statusText: string;
-};
-
-type UserLoginProps = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-type UserResponse = boolean | string | RegisterError;
-
 type FormatRailsBodyProps = {
-  user: UserLoginProps
+  user: {
+    name: string;
+    email: string;
+    password: string;
+  }
+};
+
+type FormatRailsLoginBodyProps = {
+  user: {
+    email: string;
+    password: string;
+  }
+};
+
+type FetchResponseSignUpProps = {
+  message: string;
+  status: number;
+  statsText: string;
+  data: object
+};
+
+type FetchResponseLoginProps = {
+  message: string;
+  status: number;
+  statsText: string;
+  token: string;
 };
 
 type ApiProps = {
+  profile: {
+    data: () => Promise<FormatRailsBodyProps>;
+  };
+  auth: {
+    validation: () => Promise<FetchResponseLoginProps>;
+  };
   user: {
-    login: (body: FormatRailsBodyProps) => Promise<UserResponse>;
-    register: (body: FormatRailsBodyProps) => Promise<UserResponse>;
-    authentication: () => Promise<FormatRailsBodyProps>;
+    login: (body: FormatRailsLoginBodyProps) => Promise<FetchResponseLoginProps>;
+    register: (body: FormatRailsBodyProps) => Promise<FetchResponseSignUpProps>;
   };
 };
 
 export const api: ApiProps = {
+  profile: {
+    data: () => fetcher({ url: `/me`, method: 'GET', cache: 'no-store', }),
+  },
+  auth: {
+    validation: () => fetcher({ url: '/auth/validate_token', method: 'GET', cache: 'no-store', }),
+  },
   user: {
-    login: (body) => fetcher({ url: '/login', method: 'POST', body }),
+    login: (body) => fetcher({ url: '/login', method: 'POST', body, cache: 'no-store', }),
     register: (body) => fetcher({ url: '/signup', method: 'POST', body }),
-    authentication: () => fetcher({ url: `/me`, method: 'GET' }),
   }
 };
