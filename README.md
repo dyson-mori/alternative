@@ -27,4 +27,4 @@ Página protegida de Perfil <br />
   - ✨ :sparkles: new feature
   - ♻️ :recycle: refactor
   - 💥 :boom:
-  - 🚧 :construction:
+  - 🚧 possiveis mudanças serão feitas.
