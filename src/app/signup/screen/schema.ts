@@ -14,7 +14,7 @@ export const schema = yup.object({
     .string()
     .required('Senha é obrigatória')
     .min(6, 'A senha deve ter no mínimo 6 caracteres'),
-  confirmPassword: yup
+  password_confirmation: yup
     .string()
     .oneOf([yup.ref('password')], 'As senhas devem coincidir')
     .required('Confirmação de senha é obrigatória'),

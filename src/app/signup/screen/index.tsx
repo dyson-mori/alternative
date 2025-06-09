@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from "react";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Controller, useForm } from "react-hook-form";
@@ -10,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@services/api";
 import { Button, Input, Splash } from "@components";
 
-import { ColorHeader, Container, Form, InputRow } from "./styles";
+import { ColorHeader, Container, Form, InputRow, SignIn } from "./styles";
 import { schema, schemaProps } from "./schema";
 
 type StatusProps = {
@@ -26,13 +27,6 @@ export default function RegisterScreen() {
 
   const { control, handleSubmit, formState: { isValid } } = useForm<schemaProps>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-    // mode: 'onChange'
   });
 
   async function submit(form: schemaProps) {
@@ -40,13 +34,13 @@ export default function RegisterScreen() {
 
     const data = await api.user.register({ user: form });
 
-    if (Object.values(data)[0] !== 201) {
-      return setStatus({ loading: false, status: 'error', message: 'Algo deu de errado ao tentar criar o usuário!' });
+    if (data.status !== 201) {
+      return setStatus({ loading: false, status: 'error', message: data.message });
     };
 
-    setStatus({ loading: true, status: 'primary', message: data.message });
+    setStatus({ loading: false, status: 'primary', message: data.message });
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // await new Promise(resolve => setTimeout(resolve, 1000));
 
     return route.push('/login');
   };
@@ -81,14 +75,16 @@ export default function RegisterScreen() {
               )}
             />
             <Controller
-              name='confirmPassword'
+              name='password_confirmation'
               control={control}
               render={({ field: { value, onChange } }) => (
                 <Input type="password" label="Repita a Senha" value={value ?? ''} onChange={onChange} />
               )}
             />
           </InputRow>
+
           <div style={{ height: 10 }} />
+
           <Button
             type="submit"
             $variant={status.status}
@@ -97,7 +93,12 @@ export default function RegisterScreen() {
           >
             {status.message}
           </Button>
+
           <div style={{ height: 10 }} />
+
+          <SignIn>
+            <p>Já tem uma conta? <Link href='/login'>Clique aqui</Link></p>
+          </SignIn>
 
         </Form>
       </Container>

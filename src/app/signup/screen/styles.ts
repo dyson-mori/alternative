@@ -42,3 +42,17 @@ export const ColorHeader = styled.div`
   height: calc(100vh / 3);
   background: linear-gradient(to right, #4a90e2, #6f9edc);
 `;
+
+export const SignIn = styled.div`
+  margin: 10px 0;
+  a {
+    /* text-decoration: none; */
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.primary};
+  };
+
+  p {
+    font-size: 90%;
+    color: ${({ theme }) => theme.colors.text};
+  };
+`;
