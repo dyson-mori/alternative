@@ -1,11 +1,11 @@
 import { useRouter } from 'next/navigation';
 
 import userEvent from '@testing-library/user-event';
-import { screen, waitFor, renderWithTheme } from '@utils/renderWithTheme';
+import renderWithTheme, { screen, waitFor } from '@utils/renderWithTheme';
 
 import { api } from '@services/api';
 
-import { serveCookieAction } from '../actions';
+import { setCookie } from '@utils/serverCookieAction';
 
 import LoginScreen from '../screen';
 
@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock('../../../services/api', () => ({
+jest.mock('@services/api', () => ({
   api: {
     user: {
       login: jest.fn(),
@@ -22,8 +22,8 @@ jest.mock('../../../services/api', () => ({
   },
 }));
 
-jest.mock('../actions', () => ({
-  serveCookieAction: jest.fn(),
+jest.mock('@utils/serverCookieAction', () => ({
+  setCookie: jest.fn(),
 }));
 
 describe('LoginScreen', () => {
@@ -58,7 +58,7 @@ describe('LoginScreen', () => {
         },
       });
 
-      expect(serveCookieAction).toHaveBeenCalledWith('fake-token');
+      expect(setCookie).toHaveBeenCalledWith('fake-token');
       expect(push).toHaveBeenCalledWith('/profile');
     });
   });

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 
 import userEvent from '@testing-library/user-event';
-import { screen, waitFor, renderWithTheme } from '@utils/renderWithTheme';
+import renderWithTheme, { screen, waitFor } from '@utils/renderWithTheme';
 
 import { api } from '@services/api';
 
@@ -12,7 +12,7 @@ jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock('../../../services/api', () => ({
+jest.mock('@services/api', () => ({
   api: {
     user: {
       register: jest.fn(),
