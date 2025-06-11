@@ -56,14 +56,14 @@ export default function RegisterScreen() {
             name='name'
             control={control}
             render={({ field: { value, onChange } }) => (
-              <Input label="Nome Completo" value={value ?? ''} onChange={onChange} />
+              <Input type="text" label="Nome Completo" value={value ?? ''} onChange={onChange} />
             )}
           />
           <Controller
             name='email'
             control={control}
             render={({ field: { value, onChange } }) => (
-              <Input label="Email" value={value ?? ''} onChange={onChange} />
+              <Input type="email" label="Email" value={value ?? ''} onChange={onChange} />
             )}
           />
           <InputRow>
@@ -78,7 +78,7 @@ export default function RegisterScreen() {
               name='password_confirmation'
               control={control}
               render={({ field: { value, onChange } }) => (
-                <Input type="password" label="Repita a Senha" value={value ?? ''} onChange={onChange} />
+                <Input type="password" label="Repita" value={value ?? ''} onChange={onChange} />
               )}
             />
           </InputRow>
