@@ -1,30 +1,43 @@
-## Tasks ✔️ ✖️
-  [✔️] /signup – formulário de criação de conta. <br />
-  [✔️] /login – formulário de login. <br />
-  [✔️] /profile – protegida, mostra os dados do usuário. <br />
+# Teste Técnico Pleno II • Next.js 15
 
-  [✔️] Criação de Conta (Sign up). <br />
-  [✔️] Um formulário no frontend para criação de conta. <br />
-  [✖️] O backend deve registrar o usuário e retornar um token JWT.
+### Login
+  - [✔️] Criar o formulário de login que envie apenas o `email` e `password`.
+  - [✔️] O frontend salva o JWT (em cookie HttpOnly ou localStorage) e redireciona para a página do usuário.
 
-Login <br />
-  [✔️] Um formulário de login que envia e-mail e senha para o backend. <br />
-  [✔️] O backend valida e retorna o JWT.  <br />
-  [✔️] O frontend salva o JWT (em cookie HttpOnly ou localStorage) e redireciona para a página do usuário.
+### SignUp
+  - [✔️] Criar o formulário de login que envie o `name`, `email`, `password`.
+  - [✔️] Ser possivel criar a conta.
+  <!-- - [✖️] O backend deve registrar o usuário e retornar um token JWT. -->
 
-Página protegida de Perfil <br />
-  [✔️] Após login, o usuário é redirecionado para uma página de perfil. <br />
-  [✔️] Essa página faz uma chamada autenticada para o backend usando o JWT para obter os dados do usuário logado. <br />
+### Profile
+  - [✔️] Protegida.
+  - [✔️] Exibir os dados do usuário autenticado.
 
-  [in_progress] Implementar testes com Jest e Testing Library <br />
-  [in_progress] Proteger a rota /profile de acesso não autorizado <br />
+  - [in_progress] Implementar testes com Jest e Testing Library
+  - [in_progress] Proteger a rota /profile de acesso não autorizado
+
+### Testes
+  - [✖️] Next.js (Jest + React Testing Library)
+  - [✖️] Testar comportamento dos formulários (signup, login)
+  - [✖️] Testar redirecionamento após login
+  - [✖️] Testar acesso protegido à página /profile
 
 ## Icons
-  - ✏️ :pencil2: edit files
-  - 📦 :package: add new package
-  - 🛠️ :hammer_and_wrench: 
-  - 🧪 :test_tube: testes
-  - ✨ :sparkles: new feature
-  - ♻️ :recycle: refactor
-  - 💥 :boom:
+  - ✏️ edit files
+  - 📦 add new package
+  - 🧪 testes
+  - ✨ new feature
   - 🚧 possiveis mudanças serão feitas.
+
+## 🚀 Critérios de avaliação
+  - Versionamento no Git
+  - Implementação correta das features
+  - Uso adequado de TDD
+  - Código limpo e organizado
+  - Proteção e fluxo de autenticação JWT
+  - Experiência do usuário (UX)
+
+## ⭐ Diferenciais
+  - Implementação de CI/CD (GitHub Actions / Gitlab CI)
+  - Docker compose para rodar Frontend + Backend
+  - Dockerfile para build das imagens (pense em upload para o AWS ECR)
