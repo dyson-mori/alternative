@@ -15,6 +15,7 @@ import { Logo } from "@assets";
 
 import { Container, Form, SignUp } from "./styles";
 import { schema, schemaProps } from "./schema";
+import { serveCookieAction } from "../actions";
 
 type StatusProps = {
   loading: boolean;
@@ -29,6 +30,10 @@ export default function LoginScreen() {
 
   const { control, handleSubmit, formState: { isValid } } = useForm<schemaProps>({
     resolver: yupResolver(schema),
+    // defaultValues: {
+    //   email: 'ssergiojunioleal@gmail.com',
+    //   password: '123456789'
+    // }
   });
 
   async function submit(form: schemaProps) {
@@ -36,10 +41,7 @@ export default function LoginScreen() {
 
     const data = await api.user.login({ user: form });
 
-    console.log(
-      data
-    );
-
+    serveCookieAction(data.token);
 
     if (data.status !== 200) {
       return setStatus({ loading: false, status: 'error', message: data.message });
@@ -57,14 +59,14 @@ export default function LoginScreen() {
             name='email'
             control={control}
             render={({ field: { value, onChange } }) => (
-              <Input type="text" label="email" value={value ?? ''} onChange={onChange} />
+              <Input type="text" label="Email" value={value ?? ''} onChange={onChange} />
             )}
           />
           <Controller
             name='password'
             control={control}
             render={({ field: { value, onChange } }) => (
-              <Input type="password" label="senha" value={value ?? ''} onChange={onChange} />
+              <Input type="password" label="Senha" value={value ?? ''} onChange={onChange} />
             )}
           />
 
