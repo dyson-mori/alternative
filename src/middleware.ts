@@ -1,4 +1,3 @@
-// middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '@services/api';
 
@@ -6,48 +5,46 @@ const PUBLIC_ROUTES = ['/login', '/signup'];
 const PRIVATE_ROUTES = ['/profile'];
 
 export async function middleware(request: NextRequest) {
-  request.headers.set('cache-control', 'no-store');
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('porcupine-token')?.value;
+  const logged = request.cookies.get('porcupine-logged')?.value;
 
-  // 1. Acesso a rotas públicas (login/signup) → Redireciona para /profile se já estiver autenticado
-  if (PUBLIC_ROUTES.includes(pathname)) {
-    if (token) {
-      try {
-        const validation = await api.auth.validation();
-        if (validation.status === 200) {
-          return NextResponse.redirect(new URL('/profile', request.url));
-        }
-      } catch {
-        // Token inválido, segue para rota pública normalmente
-      }
-    }
+  if (logged === 'logged') {
+    return NextResponse.next();
+  };
 
-    return NextResponse.next(); // Não tem token ou token inválido
-  }
+  // if (PUBLIC_ROUTES.includes(pathname)) {
+  //   if (token) {
+  //     try {
+  //       const validation = await api.auth.validation();
+  //       if (validation.status === 200) {
+  //         return NextResponse.redirect(new URL('/profile', request.url));
+  //       }
+  //     } catch { }
+  //   }
 
-  // 2. Acesso a rotas privadas → Valida token, se inválido redireciona para /login
+  //   return NextResponse.next();
+  // }
+
   if (PRIVATE_ROUTES.includes(pathname)) {
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-
     try {
       const validation = await api.auth.validation();
+      console.log(validation);
+      console.log(token);
+
       if (validation.status !== 200) {
         return NextResponse.redirect(new URL('/login', request.url));
       }
     } catch {
-      return NextResponse.redirect(new URL('/login', request.url));
+      // return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    return NextResponse.next(); // Token válido
+    return NextResponse.next();
   }
 
-  // 3. Rota fora das listas → permite o acesso (ajuste conforme necessário)
   return NextResponse.next();
-}
+};
 
 export const config = {
-  matcher: ['/', '/profile', '/login', '/signup'],
+  matcher: ['/login', '/signup', '/profile'],
 };
