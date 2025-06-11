@@ -1,56 +1,20 @@
 import fetcher from "@utils/fetcher";
 
-type FormatRailsBodyProps = {
-  user: {
-    name: string;
-    email: string;
-    password: string;
-  }
-};
-
-type FormatRailsLoginBodyProps = {
-  user: {
-    email: string;
-    password: string;
-  }
-};
-
-type FetchResponseSignUpProps = {
-  message: string;
-  status: number;
-  statsText: string;
-  data: object
-};
-
-type FetchResponseLoginProps = {
-  message: string;
-  status: number;
-  statsText: string;
-  token: string;
-};
-
-type ApiProps = {
-  profile: {
-    data: () => Promise<FormatRailsBodyProps>;
-  };
-  auth: {
-    validation: () => Promise<FetchResponseLoginProps>;
-  };
-  user: {
-    login: (body: FormatRailsLoginBodyProps) => Promise<FetchResponseLoginProps>;
-    register: (body: FormatRailsBodyProps) => Promise<FetchResponseSignUpProps>;
-  };
-};
+import { ApiProps } from "./types";
 
 export const api: ApiProps = {
+  header: {
+    list: () => fetcher({ url: `/header`, method: 'GET', cache: 'force-cache' })
+  },
   profile: {
-    data: () => fetcher({ url: `/me`, method: 'GET', cache: 'no-store', }),
+    data: () => fetcher({ url: `/me`, method: 'GET' }),
   },
   auth: {
-    validation: () => fetcher({ url: '/auth/validate_token', method: 'GET', cache: 'no-store', }),
+    validation: () => fetcher({ url: '/validate_token', method: 'GET' }),
+    logout: () => fetcher({ url: '/logout', method: 'DELETE' })
   },
   user: {
-    login: (body) => fetcher({ url: '/login', method: 'POST', body, cache: 'no-store', }),
+    login: (body) => fetcher({ url: '/login', method: 'POST', body }),
     register: (body) => fetcher({ url: '/signup', method: 'POST', body }),
-  }
+  },
 };
