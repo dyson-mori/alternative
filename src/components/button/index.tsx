@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes, forwardRef } from 'react';
 
 import { Container, Loading } from './styles';
 
-export type Variant = 'primary' | 'error';
+export type Variant = 'primary' | 'error' | 'squad';
 
 type ButtonProps = {
   $variant?: Variant;

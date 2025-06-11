@@ -1,5 +1,7 @@
 import { Montserrat } from "next/font/google";
 
+// import { api } from "@services/api";
+
 import Template from "../template";
 
 const montserrat = Montserrat({
@@ -11,10 +13,20 @@ const montserrat = Montserrat({
 export const dynamic = 'force-dynamic';
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  // const header = await api.header.list();
+
+  const header = [
+    {
+      "title": "Perfil",
+      "param": "/profile",
+      "enable": true
+    }
+  ];
+
   return (
     <html lang="en">
       <body className={`${montserrat.variable}`}>
-        <Template>
+        <Template header={header}>
           {children}
         </Template>
       </body>

@@ -36,6 +36,11 @@ export const Container = styled.button<{ $variant: Variant }>`
       color: #fff;
       font-weight: 600;
     `};
+
+    ${$variant === 'squad' && css`
+      width: 50px;
+      background-color: transparent;
+    `};
   `};
 `;
 

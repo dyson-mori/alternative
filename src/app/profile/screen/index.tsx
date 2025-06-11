@@ -5,22 +5,13 @@ import { Suspense } from "react";
 import { Splash } from "@components";
 
 import { Container } from "./styles";
-
-type UserLoginProps = {
-  data: {
-    user: {
-      name: string;
-      email: string;
-      password: string;
-    }
-  }
-};
+import { UserLoginProps } from "./types";
 
 export default function ProfileScreen({ data }: UserLoginProps) {
   return (
     <Suspense fallback={<Splash />}>
       <Container>
-        {data.user.name}
+        <p>{data.user.name}</p>
       </Container>
     </Suspense>
   )

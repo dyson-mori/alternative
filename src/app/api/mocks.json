@@ -6,5 +6,22 @@
       "email": "ssergiojunioleal@gmail.com",
       "password": "123456789"
     }
+  ],
+  "header": [
+    {
+      "title": "Produtos",
+      "param": "/products",
+      "enable": false
+    },
+    {
+      "title": "Categorias",
+      "param": "/categories",
+      "enable": false
+    },
+    {
+      "title": "Perfil",
+      "param": "/profile",
+      "enable": true
+    }
   ]
 }

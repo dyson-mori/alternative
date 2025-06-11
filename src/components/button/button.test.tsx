@@ -1,4 +1,4 @@
-import { renderWithTheme, screen, fireEvent } from '@utils/renderWithTheme';
+import renderWithTheme, { screen, fireEvent } from '@utils/renderWithTheme';
 
 import { Button } from '.';
 

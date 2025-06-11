@@ -2,13 +2,6 @@
 
 import { cookies } from "next/headers";
 
-type FetchProps = {
-  url: string;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
-  cache?: 'default' | 'force-cache' | 'no-cache' | 'no-store' | 'reload' | 'only-if-cached';
-  body?: object;
-};
-
 const NEXT_URL = process.env.NEXT_RAILS_URL;
 
 const fetcher = async ({ method, url, cache, body }: FetchProps) => {
