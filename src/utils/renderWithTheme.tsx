@@ -8,4 +8,9 @@ const renderWithTheme = (ui: React.ReactElement, options = {}) =>
 
 export * from '@testing-library/react';
 
-export { renderWithTheme };
+function decodeToken(token: string) {
+  const payload = token.split('.')[1];
+  return JSON.parse(atob(payload));
+};
+
+export { renderWithTheme, decodeToken };
