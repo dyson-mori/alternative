@@ -31,7 +31,7 @@ export default function Header({ data }: Props) {
       route.push('/login');
     };
 
-    setLoading(true);
+    setLoading(false);
   };
 
   return isLanding && (
