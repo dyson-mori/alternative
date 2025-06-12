@@ -1,28 +1,22 @@
-"use server";
+'use server';
 
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
 export async function setCookie(token: string) {
-  const cookie = await cookies();
+  const cookieStore = await cookies();
 
-  cookie.set({
-    name: 'porcupine-token',
-    value: token,
+  cookieStore.set('porcupine-token', token, {
     httpOnly: true,
     path: '/profile',
-    maxAge: 120,
+    maxAge: 60, // 1 minuto
   });
 
-  cookie.set({
-    name: 'porcupine-logged',
-    value: 'logged',
-    path: '/login',
-  });
-};
+  cookieStore.set('porcupine-logged', 'logged', { path: '/' });
+}
 
 export async function deleteCookie() {
-  const cookie = await cookies();
+  const cookieStore = await cookies();
 
-  cookie.delete({ name: 'porcupine-token' });
-  cookie.delete({ name: 'porcupine-logged' });
-};
+  cookieStore.delete('porcupine-token');
+  cookieStore.delete('porcupine-logged');
+}
