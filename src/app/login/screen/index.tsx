@@ -59,11 +59,11 @@ export default function LoginScreen() {
 
     const data = await api.user.login({ user: form });
 
-    setCookie(data.token);
-
     if (data.status !== 200) {
       return setStatus({ loading: false, status: 'error', message: data.message });
     };
+
+    setCookie(data.token);
 
     return route.push('/profile');
   };
