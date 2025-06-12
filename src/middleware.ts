@@ -9,41 +9,52 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get('porcupine-token')?.value;
   const logged = request.cookies.get('porcupine-logged')?.value;
 
-  if (logged === 'logged') {
-    return NextResponse.next();
-  };
+  const isPublic = PUBLIC_ROUTES.includes(pathname);
+  const isPrivate = PRIVATE_ROUTES.includes(pathname);
 
-  // if (PUBLIC_ROUTES.includes(pathname)) {
-  //   if (token) {
-  //     try {
-  //       const validation = await api.auth.validation();
-  //       if (validation.status === 200) {
-  //         return NextResponse.redirect(new URL('/profile', request.url));
-  //       }
-  //     } catch { }
-  //   }
+  const isTokenInvalid = !token || token === 'null';
+  const isNotLogged = logged !== 'logged';
 
-  //   return NextResponse.next();
-  // }
+  if (isPrivate && isNotLogged && isTokenInvalid) {
+    return redirectToLogin(request);
+  }
 
-  if (PRIVATE_ROUTES.includes(pathname)) {
+  if (isPublic && logged === 'logged') {
+    return NextResponse.redirect(new URL('/profile', request.url));
+  }
+
+  if (isPrivate && isNotLogged) {
+    return redirectToLogin(request);
+  }
+
+  if (isPrivate && isTokenInvalid && logged === 'logged') {
+    return clearCookiesAndRedirect(request);
+  }
+
+  if (isPrivate && logged === 'logged') {
     try {
       const validation = await api.auth.validation();
-      console.log(validation);
-      console.log(token);
-
       if (validation.status !== 200) {
-        return NextResponse.redirect(new URL('/login', request.url));
+        return clearCookiesAndRedirect(request);
       }
     } catch {
-      // return NextResponse.redirect(new URL('/login', request.url));
+      return clearCookiesAndRedirect(request);
     }
-
-    return NextResponse.next();
   }
 
   return NextResponse.next();
-};
+}
+
+function redirectToLogin(request: NextRequest) {
+  return NextResponse.redirect(new URL('/login', request.url));
+}
+
+function clearCookiesAndRedirect(request: NextRequest) {
+  const response = redirectToLogin(request);
+  response.cookies.set('porcupine-logged', '', { maxAge: 0, path: '/' });
+  response.cookies.set('porcupine-token', '', { maxAge: 0, path: '/' });
+  return response;
+}
 
 export const config = {
   matcher: ['/login', '/signup', '/profile'],
