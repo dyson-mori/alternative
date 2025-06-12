@@ -47,11 +47,7 @@ export default function LoginScreen() {
   const [status, setStatus] = useState({ message: 'Enviar' } as StatusProps);
 
   const { control, handleSubmit, formState: { isValid } } = useForm<schemaProps>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      email: 'ssergiojunioleal@gmail.com',
-      password: '12345678'
-    }
+    resolver: yupResolver(schema)
   });
 
   async function submit(form: schemaProps) {
