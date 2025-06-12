@@ -7,7 +7,7 @@ export const api: ApiProps = {
     list: () => fetcher({ url: `/header`, method: 'GET', cache: 'force-cache' })
   },
   profile: {
-    data: () => fetcher({ url: `/me`, method: 'GET' }),
+    user: () => fetcher({ url: `/me`, method: 'GET' }),
   },
   auth: {
     validation: () => fetcher({ url: '/validate_token', method: 'GET' }),

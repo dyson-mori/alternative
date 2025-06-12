@@ -14,7 +14,7 @@ type ResponseLoginProps = ResponseProps & {
 
 export type ApiProps = {
   profile: {
-    data: () => Promise<UserData>;
+    user: () => Promise<UserData>;
   };
   auth: {
     validation: () => Promise<ResponseLoginProps>;
