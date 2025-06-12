@@ -7,7 +7,7 @@ export async function setCookie(token: string) {
 
   cookieStore.set('porcupine-token', token, {
     httpOnly: true,
-    path: '/profile',
+    path: '/',
     maxAge: 60, // 1 minuto
   });
 
