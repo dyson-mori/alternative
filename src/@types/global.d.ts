@@ -15,10 +15,8 @@ declare global {
   };
 
   type UserData = {
-    user: {
-      name: string;
-      email: string;
-    }
+    name: string;
+    email: string;
   };
 
   type UserRegistrationPayload = {
