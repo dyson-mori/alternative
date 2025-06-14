@@ -4,14 +4,12 @@ import ProfileScreen from '../screen';
 
 describe('ProfileScreen', () => {
   const mockUser = {
-    user: {
-      name: 'Sergio Junio',
-      email: 'sergio@example.com',
-    },
+    name: 'Sergio Junio',
+    email: 'sergio@example.com',
   };
 
-  it('renderiza corretamente com os dados do usuário', () => {
-    renderWithTheme(<ProfileScreen data={mockUser} />);
+  it('Renderiza corretamente com os dados do usuário', () => {
+    renderWithTheme(<ProfileScreen user={mockUser} />);
 
     expect(screen.getByText('Sergio Junio')).toBeInTheDocument();
   });

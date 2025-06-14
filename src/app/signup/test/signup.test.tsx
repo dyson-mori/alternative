@@ -1,9 +1,8 @@
 import { useRouter } from 'next/navigation';
 
+import { api } from '@services/api';
 import userEvent from '@testing-library/user-event';
 import renderWithTheme, { screen, waitFor } from '@utils/renderWithTheme';
-
-import { api } from '@services/api';
 
 import RegisterScreen from '../screen';
 
@@ -27,7 +26,7 @@ describe('RegisterScreen', () => {
     (useRouter as jest.Mock).mockReturnValue({ push });
   });
 
-  it('faz o cadastro com sucesso e redireciona para /login', async () => {
+  it('Realiza cadastro com sucesso e redireciona para /login', async () => {
     (api.user.register as jest.Mock).mockResolvedValue({
       status: 201,
       message: 'Usuário registrado com sucesso!',
@@ -61,7 +60,7 @@ describe('RegisterScreen', () => {
     });
   });
 
-  it('mostra erro quando as credenciais são inválidas', async () => {
+  it('Exibe uma mensagem de erro quando as credenciais são inválidas', async () => {
     (api.user.register as jest.Mock).mockResolvedValue({
       status: 422,
       message: 'Algo deu de errado ao tentar criar o usuário!',

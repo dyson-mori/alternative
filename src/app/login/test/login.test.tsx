@@ -1,15 +1,13 @@
 import { useRouter } from 'next/navigation';
 
 import userEvent from '@testing-library/user-event';
-import renderWithTheme, { screen, waitFor } from '@utils/renderWithTheme';
 
 import { api } from '@services/api';
-
 import { setCookie } from '@utils/serverCookieAction';
+import renderWithTheme, { screen, waitFor } from '@utils/renderWithTheme';
 
 import LoginScreen from '../screen';
 
-// mocks
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
@@ -33,7 +31,7 @@ describe('LoginScreen', () => {
     (useRouter as jest.Mock).mockReturnValue({ push });
   });
 
-  it('faz login com sucesso e redireciona para /profile', async () => {
+  it('Realiza login com sucesso e redireciona para /profile', async () => {
     (api.user.login as jest.Mock).mockResolvedValue({
       status: 200,
       token: 'fake-token',
@@ -63,7 +61,7 @@ describe('LoginScreen', () => {
     });
   });
 
-  it('mostra erro quando as credenciais são inválidas', async () => {
+  it('Exibe uma mensagem de erro quando as credenciais são inválidas', async () => {
     (api.user.login as jest.Mock).mockResolvedValue({
       status: 401,
       message: 'Credenciais inválidas',
