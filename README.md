@@ -5,12 +5,14 @@ Criei essa documentação como se eu tivesse ensinando para um Junior que está 
 Abra o `terminal` dentro do projeto e execute `pnpm install`.
 
 ## 🔰 Rodando o Projeto
-Primeiro você adicionará essa variável `NEXT_RAILS_URL="http://localhost:3333"` dentro do `.env`
+Em seguida você criará o arquivo `.env`, basta executar esse comando no `CMD`
 
-Em seguida com o `terminal` aberto, basta executar `pnpm run dev` e no chrome abra em `http://localhost:3000` ou clique aqui [Porcupine](http://localhost:3000).
+`echo "NEXT_RAILS_URL=http://localhost:3333" > .env`
+
+Logo após isso basta executar `pnpm run dev` e no chrome abra em `http://localhost:3000` ou [clique aqui](http://localhost:3000).
 
 ## 🐳 Docker
-Com o `terminal` aberto, execute `docker compose up --build`.
+Com o `terminal` e o `🐳 Docker` aberto, execute `docker compose up --build`.
 
 ## 🧪 Testes
 Com o `terminal` aberto, execute `pnpm run test`, aqui realizei os testes:
@@ -23,7 +25,7 @@ Com o `terminal` aberto, execute `pnpm run test`, aqui realizei os testes:
     - [✔️] Exibe uma mensagem de erro quando as credenciais são inválidas
   - Perfil
     - [✔️] Renderiza corretamente com os dados do usuário
-    - [✖️] Testar acesso protegido à página /profile
+    - [✔️] Testar acesso protegido à página /profile
 
 ### Componentes
   - Botão
