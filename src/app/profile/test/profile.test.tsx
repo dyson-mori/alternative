@@ -9,7 +9,7 @@ describe('ProfileScreen', () => {
   };
 
   it('Renderiza corretamente com os dados do usuário', () => {
-    renderWithTheme(<ProfileScreen user={mockUser} />);
+    renderWithTheme(<ProfileScreen data={mockUser} />);
 
     expect(screen.getByText('Sergio Junio')).toBeInTheDocument();
   });
