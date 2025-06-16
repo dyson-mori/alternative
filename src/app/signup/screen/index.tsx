@@ -9,9 +9,9 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { api } from "@services/api";
-import { Button, Input, Splash } from "@components";
+import { Animated, Button, Form, Input, Splash } from "@components";
 
-import { ColorHeader, Container, Form, InputRow, SignIn } from "./styles";
+import { ColorHeader, Container, InputRow, SignIn } from "./styles";
 import { schema, schemaProps } from "./schema";
 
 type StatusProps = {
@@ -40,8 +40,6 @@ export default function RegisterScreen() {
 
     setStatus({ loading: false, status: 'primary', message: data.message });
 
-    // await new Promise(resolve => setTimeout(resolve, 1000));
-
     return route.push('/login');
   };
 
@@ -52,6 +50,8 @@ export default function RegisterScreen() {
         <ColorHeader />
 
         <Form onSubmit={handleSubmit(submit)}>
+          <Animated />
+
           <Controller
             name='name'
             control={control}
