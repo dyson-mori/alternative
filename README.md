@@ -1,21 +1,41 @@
 # Teste Técnico Pleno II • Next.js 15
-Criei essa documentação como se eu tivesse ensinando para um Junior que está aprendendo sobre a Programação.
+Documentação criada com o objetivo de guiar desenvolvedores iniciantes (nível Júnior) na execução e compreensão do projeto. Aqui estão os passos para instalar, rodar, testar e entender cada parte da aplicação.
 
 ## 📦 Instalação
-Abra o `terminal` dentro do projeto e execute `pnpm install`.
+No `terminal` ou `CMD` do projeto, execute:
+```bash
+pnpm install
+```
+Esse comando instalará todas as dependências listadas no projeto.
 
 ## 🔰 Rodando o Projeto
-Em seguida você criará o arquivo `.env`, basta executar esse comando no `CMD`
-
-`echo "NEXT_RAILS_URL=http://localhost:3333" > .env`
-
-Logo após isso basta executar `pnpm run dev` e no chrome abra em `http://localhost:3000` ou [clique aqui](http://localhost:3000).
+Crie o arquivo `.env` com:
+```bash
+touch .env
+```
+Em seguida, adicione a variável de ambiente:
+```bash
+NEXT_RAILS_URL="http://localhost:3333"
+```
+Para iniciar a aplicação em modo de desenvolvimento:
+```bash
+pnpm run dev
+```
+Abra seu navegador e acesse `http://localhost:3000` ou [clicando aqui](http://localhost:3000).
 
 ## 🐳 Docker
-Com o `terminal` e o `🐳 Docker` aberto, execute `docker compose up --build`.
+Certifique-se de que o Docker está em execução, e então rode:
+```bash
+docker compose up --build
+```
+Este comando irá subir os containers do Frontend, facilitando a integração local.
 
 ## 🧪 Testes
-Com o `terminal` aberto, execute `pnpm run test`, aqui realizei os testes:
+Para rodar os testes automatizados:
+```bash
+pnpm run test
+```
+
 ### Telas
   - Login
     - [✔️] Realiza login com sucesso e redireciona para /profile
@@ -48,7 +68,6 @@ Com o `terminal` aberto, execute `pnpm run test`, aqui realizei os testes:
 ### SignUp
   - [✔️] Criar o formulário de login que envie o `name`, `email`, `password`.
   - [✔️] Ser possivel criar a conta.
-  <!-- - [✖️] O backend deve registrar o usuário e retornar um token JWT. -->
 
 ### Profile
   - [✔️] Protegida.
@@ -72,24 +91,5 @@ Com o `terminal` aberto, execute `pnpm run test`, aqui realizei os testes:
 
 ## ⭐ Diferenciais
   - [✔️] Implementação de CI/CD (GitHub Actions / Gitlab CI)
-  - [✖️] Docker compose para rodar Frontend + Backend
-  - [✖️] Dockerfile para build das imagens (pense em upload para o AWS ECR)
-
-
-  version: "3.9"
-
-services:
-  backend:
-    container_name: porcupine-backend
-    build: .
-    ports:
-      - "3333:3333"
-    environment:
-      - RAILS_ENV=production
-    volumes:
-      - .:/app
-    networks:
-      - app-network
-
-networks:
-  app-network:
+  - [✔️] Docker compose para rodar Frontend + Backend
+  - [✔️] Dockerfile para build das imagens (pense em upload para o AWS ECR)
